@@ -7,10 +7,12 @@ namespace OnClick
         public static Account account;
         static void Main(string[] args)
         {
+            Admin baseAdmin = new Admin();
+            baseAdmin.userName = "admin";
+            baseAdmin.password = "admin";
             account = new NonAuthorizedAccount();
             printFirstMenu();
-
-            
+            return;    
         }
         public static void printSecondMenu()
         {
@@ -21,6 +23,9 @@ namespace OnClick
                 println("3.Remove Advert");
                 println("4.Update Advert");
                 println("5.Log Out");
+            }else
+            {
+                println("2.Go To Main Menu");
             }
             if (account is User)
             {
@@ -31,21 +36,34 @@ namespace OnClick
                 println("6.Ban Player");
                 println("7.Promote Player To Admin");
             }
+            print("Enter Your Choice : ");
             int choice = 0;
             try
             {
                 choice = Convert.ToInt32(read());
-            }catch(Exception e)
+            }catch(Exception)
             {
                 clear();
                 println("You can only enter numbers");
                 printSecondMenu();
+                return;
             }
             {
                 switch (choice)
                 {
                     case 1:
-                        account.listAdvert();
+                        try
+                        {
+                            account.listAdvert();
+                        }catch(AdvertListEmptyException e)
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            println("Listing advert procces failed reasoned by : " + e.Message);
+                            Console.ResetColor();
+                            printSecondMenu();
+                            return;
+                        }
                         break;
                     default:
                         if (account is not Guest)
@@ -92,6 +110,23 @@ namespace OnClick
                                     break;
                             }
                         }
+                        else
+                        {
+                            switch (choice)
+                            {
+                                case 2:
+                                    account = new NonAuthorizedAccount();
+                                    Console.Clear();
+                                    printFirstMenu();
+                                    break;
+                                default:
+                                    clear();
+                                    println("You can only enter (1-2)");
+                                    printSecondMenu();
+                                    break;
+
+                            }
+                        }
                         clear();
                         println("You can only enter 1");
                         printSecondMenu();
@@ -104,15 +139,81 @@ namespace OnClick
         }
         public static void printAddAdvertMenu()
         {
-
+            //Kaan Burada Kaldı...
         }
         public static void printBanPlayerMenu()
         {
+            clear();
+            print("Enter username that you want to ban :");
+            string username = read();
+            AuthorizedAccount account = null;
+            try
+            {
+                account = AuthorizedAccount.GetAuthorizedAccountByUsername(username);
+            }
+            catch (UsernameDoesNotExistException e)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                println("Banning procces failed reasoned by : " + e.Message);
+                Console.ResetColor();
+                printSecondMenu();
+                return;
+            }
+            if (account is Admin)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                println("Banning procces failed reasoned by : Account is an admin account");
+                Console.ResetColor();
+                printSecondMenu();
+                return;
+            }
 
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            println("Banning procces successful!");
+            Console.ResetColor();
+            printSecondMenu();
         }
         public static void printPromoteMenu()
         {
-
+            clear();
+            print("Enter username that you want to promote admin : ");
+            string username = read();
+            AuthorizedAccount account = null;
+            try
+            {
+                account = AuthorizedAccount.GetAuthorizedAccountByUsername(username);
+            }catch(UsernameDoesNotExistException e)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                println("Promotion procces failed reasoned by : " + e.Message);
+                Console.ResetColor();
+                printSecondMenu();
+                return;
+            }
+            if (account is Admin)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                println("Promotion procces failed reasoned by : Account is already admin" );
+                Console.ResetColor();
+                printSecondMenu();
+                return;
+            }
+            Admin admin = new Admin();
+            admin.userName = account.userName;
+            admin.password = account.password;
+            admin.messages = account.messages;
+            AuthorizedAccount.accounts.Add(admin);
+            AuthorizedAccount.accounts.Remove(account);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            println("Promotion procces successful!");
+            Console.ResetColor();
+            printSecondMenu();
         }
         public static void printFirstMenu()
         {
@@ -124,7 +225,7 @@ namespace OnClick
             try
             {
                 choice = Convert.ToInt32(read());
-            }catch(Exception e)
+            }catch(Exception)
             {
                 clear();
                 println("You can only enter numbers");
@@ -163,7 +264,7 @@ namespace OnClick
             catch (UsernameIsNotUniqueException e)
             {
                 clear();
-                Console.BackgroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 println("You could not register reasoned by : " + e.Message);
                 Console.ResetColor();
                 printFirstMenu();
@@ -180,11 +281,12 @@ namespace OnClick
             try
             {
                 ((NonAuthorizedAccount)account).login(username, password);
+                printSecondMenu();
             }
             catch(UsernameDoesNotExistException e)
             {
                 clear();
-                Console.BackgroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 println("You could not login reasoned by : " + e.Message);
                 Console.ResetColor();
                 printFirstMenu();
@@ -192,7 +294,15 @@ namespace OnClick
             catch(PasswordDoesNotMatchException e)
             {
                 clear();
-                Console.BackgroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                println("You could not login reasoned by : " + e.Message);
+                Console.ResetColor();
+                printFirstMenu();
+            }
+            catch(BannedException e)
+            {
+                clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 println("You could not login reasoned by : " + e.Message);
                 Console.ResetColor();
                 printFirstMenu();

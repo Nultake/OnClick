@@ -8,6 +8,10 @@ namespace OnClick
 {
     public class User : AuthorizedAccount
     {
+        public User() : base()
+        {
+        }
+
         public bool isBanned { get; set; }
         public List<Advert> adverts { get; set; }
         public void AddAdvert(Advert advert)

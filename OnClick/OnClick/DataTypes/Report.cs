@@ -9,5 +9,11 @@ namespace OnClick
     public class Report
     {
         public string info { get; set; }
+        public Advert Advert { get; set; }
+
+        public override string ToString()
+        {
+            return Advert.title + info;
+        }
     }
 }

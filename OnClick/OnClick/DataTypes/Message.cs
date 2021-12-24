@@ -8,8 +8,13 @@ namespace OnClick
 {
     public class Message
     {
+
         public bool isRead { get; set; }
         public Report Report { get; set; }
 
+        public override string ToString()
+        {
+            return base.ToString()+ isRead;
+        }
     }
 }

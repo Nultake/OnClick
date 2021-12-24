@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OnClick
 {
-    public class AdvertListEmptyException : Exception
+    public class IndexNotFoundException : Exception
     {
-        public AdvertListEmptyException(string message) : base(message)
+        public IndexNotFoundException(string message) : base(message)
         {
         }
     }

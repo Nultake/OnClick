@@ -8,6 +8,7 @@ namespace OnClick
 {
     public class Vehicle : Product
     {
+
         public string brand { get; set; }
         public string color { get; set; }
         public int engineVolume { get; set; }
@@ -17,5 +18,9 @@ namespace OnClick
         public int modelYear { get; set; }
         public Shifter shifter { get; set; }
         public Type type { get; set; }
+
+        public Vehicle() : base()
+        {
+        }
     }
 }

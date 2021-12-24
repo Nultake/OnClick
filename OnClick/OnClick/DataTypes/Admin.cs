@@ -6,21 +6,26 @@ using System.Threading.Tasks;
 
 namespace OnClick
 {
-    public class Admin : NonAuthorizedAccount
+    public class Admin : AuthorizedAccount
     {
+        public Admin() : base()
+        {
+        }
+
         public void ApproveWarnAdvert(Advert advert)
         {
             
         }  
         public void Ban(User user)
         {
-            
+            user.isBanned = true;
         }
         public void PromoteToAdmin(User user)
         {
             
         }
         public void WarnAdvert(Advert advert)
+
         {
             
         }

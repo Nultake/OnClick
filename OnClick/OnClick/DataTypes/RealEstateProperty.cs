@@ -8,11 +8,14 @@ namespace OnClick
 {
     public class RealEstateProperty : Product
     {
-
         public string address { get; set; }
         public int area { get; set; }
         public HeatingSystem heatingSystem { get; set; }
         public int roomNumber { get; set; }
+
+        public RealEstateProperty() : base()
+        {
+        }
 
     }
 }

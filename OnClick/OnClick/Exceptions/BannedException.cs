@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OnClick
 {
-    public class AdvertListEmptyException : Exception
+    public class BannedException : Exception
     {
-        public AdvertListEmptyException(string message) : base(message)
+        public BannedException(string message) : base(message)
         {
         }
     }
