@@ -15,6 +15,7 @@ namespace OnClick
         public bool isBanned { get; set; }
         public List<Advert> adverts { get; set; }
         public void AddAdvert(Advert advert)
+
         {
 
         }

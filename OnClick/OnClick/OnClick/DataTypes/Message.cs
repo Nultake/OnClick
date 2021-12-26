@@ -8,7 +8,6 @@ namespace OnClick
 {
     public class Message
     {
-        public bool isReport { get; set; } //If a message is about reporting an ad.
         public bool isRead { get; set; }
         public Report Report { get; set; }
 

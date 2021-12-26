@@ -59,7 +59,6 @@ namespace OnClick
             Console.WriteLine("Enter the report cause: ");
             string reportInfo = Console.ReadLine();
             Console.WriteLine("This report will be sent to admins to check.");
-            message.isReport = true;
             report.info = reportInfo;
             report.Advert = advert;
             message.Report = report;
