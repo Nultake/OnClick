@@ -50,7 +50,6 @@ namespace OnClick
                     {
                         throw new UsernameIsNotUniqueException("This username is already taken.");
                     }
-
                 }
             }
             User user = new User();

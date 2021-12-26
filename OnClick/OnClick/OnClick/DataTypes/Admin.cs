@@ -25,7 +25,6 @@ namespace OnClick
             
         }
         public void WarnAdvert(Advert advert)
-
         {
             
         }
