@@ -17,6 +17,7 @@ namespace OnClick
         public Product product { get; set; }
         public User user { get; set; }
 
+
         public Advert()
         {
             adverts.Add(this);

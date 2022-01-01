@@ -34,7 +34,7 @@ namespace OnClick
                     }
                     else
                     {
-                        throw new PasswordDoesNotMatchException("Your password is invalid");
+                        throw new PasswordDoesNotMatchException("Your password is incorrect");
                     }
                 }
             }

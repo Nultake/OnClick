@@ -77,7 +77,18 @@ namespace OnClick
                                     ((AuthorizedAccount) account).removeAdvert();
                                     break;
                                 case 4:
-                                    ((AuthorizedAccount) account).updateProfile();
+                                    try
+                                    {
+                                        ((AuthorizedAccount)account).updateProfile();
+                                    }
+                                    catch (PasswordDoesNotMatchException e)
+                                    {
+                                        clear();
+                                        Console.ForegroundColor = ConsoleColor.Cyan;
+                                        println("You could not login reasoned by : " + e.Message);
+                                        Console.ResetColor();
+                                        printFirstMenu();
+                                    }
                                     break;
                                 case 5:
                                     ((AuthorizedAccount) account).logOut();
@@ -139,7 +150,7 @@ namespace OnClick
         }
         public static void printAddAdvertMenu()
         {
-           
+            ((User)account).AddAdvert();
         }
         public static void printBanPlayerMenu()
         {
@@ -181,10 +192,10 @@ namespace OnClick
             clear();
             print("Enter username that you want to promote admin : ");
             string username = read();
-            AuthorizedAccount account = null;
+            AuthorizedAccount targetAccount = null;
             try
             {
-                account = AuthorizedAccount.GetAuthorizedAccountByUsername(username);
+                targetAccount = AuthorizedAccount.GetAuthorizedAccountByUsername(username);
             }catch(UsernameDoesNotExistException e)
             {
                 Console.Clear();
@@ -194,7 +205,7 @@ namespace OnClick
                 printSecondMenu();
                 return;
             }
-            if (account is Admin)
+            if (targetAccount is Admin)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -203,17 +214,7 @@ namespace OnClick
                 printSecondMenu();
                 return;
             }
-            Admin admin = new Admin();
-            admin.userName = account.userName;
-            admin.password = account.password;
-            admin.messages = account.messages;
-            AuthorizedAccount.accounts.Add(admin);
-            AuthorizedAccount.accounts.Remove(account);
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            println("Promotion procces successful!");
-            Console.ResetColor();
-            printSecondMenu();
+            ((Admin) account).PromoteToAdmin((User)targetAccount);
         }
         public static void printFirstMenu()
         {

@@ -10,6 +10,7 @@ namespace OnClick
     {
 
         public bool isRead { get; set; }
+        public bool isReport { get; set; }
         public Report Report { get; set; }
 
         public override string ToString()

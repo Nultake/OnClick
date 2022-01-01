@@ -1,6 +1,6 @@
 ﻿using System;
 using OnClick.DataTypes;
-using Type = OnClick.DataTypes.Type;
+using VehicleType = OnClick.DataTypes.VehicleType;
 
 namespace OnClick
 {
@@ -15,7 +15,7 @@ namespace OnClick
         public int kilometers { get; set; }
         public int modelYear { get; set; }
         public Shifter shifter { get; set; }
-        public Type type { get; set; }
+        public VehicleType type { get; set; }
 
         public Vehicle() : base()
         {

@@ -63,6 +63,7 @@ namespace OnClick
             report.Advert = advert;
             message.Report = report;
             message.isRead = false;
+            message.isReport = true;
             foreach(Admin admin in AuthorizedAccount.getAllAdmins())
             {
                 admin.messages.Add(message);

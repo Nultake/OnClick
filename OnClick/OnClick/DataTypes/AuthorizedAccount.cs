@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnClick
 {
-    public class AuthorizedAccount : Account
+    public abstract class AuthorizedAccount : Account
     {
         public string userName { get; set; }
         public string password { get; set; }
@@ -58,24 +58,100 @@ namespace OnClick
             Program.printFirstMenu();
 
         }
-        public void removeAdvert()
-        {
-
-        }
+        abstract public void removeAdvert();
         public void updateProfile()
         {
+            Console.Clear();
+            Console.Write("Enter your passord to continue changing password : ");
+            string password = Console.ReadLine();
+            if (!(((AuthorizedAccount)Program.account).password.Equals(password)))
+            {
+                throw new PasswordDoesNotMatchException("Your password is incorrect");
+            }
+            else
+            {
+                Console.Write("Enter new password : ");
+                string newPassword = Console.ReadLine();
+                Console.Write("Enter new password again :");
+                string repeatPassword = Console.ReadLine();
+                if (repeatPassword.Equals(newPassword))
+                {
+                    ((AuthorizedAccount)Program.account).password = newPassword;
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Password successfully changed!");
+                    Console.ResetColor();
+                    Program.printSecondMenu();
+                    return;
+                }else
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Passwords do not match!");
+                    Console.ResetColor();
+                    Program.printSecondMenu();
+                    return;
+                }
+            }
+
 
         }
-        public void ViewMessage(int index)      //? Warn kısmına bağlancak.
+        public void ViewMessage(int index)
         {
-            Message message1 = messages.ElementAt(index);
-            Console.WriteLine(message1.ToString());
-            Program.printSecondMenu();                      //hangi menüyü bastırcağından tam emin değilim yanlış olabilir
-            return;
+            Message message = messages[index];
+            Console.WriteLine(message.ToString());
+            message.isRead = true;
+            if (this is Admin)
+            {
+                Admin admin = (Admin)this;
+                if (message.isReport)
+                {
+                    admin.WarnAdvert(message.Report.Advert,message.Report);
+                    return;
+                }
+                admin.ApproveWarnAdvert(message.Report.Advert,message.Report);
+                return;
+            }
+            Console.WriteLine("Your advert has been removed from list beacuse of mentioned reason\n" +
+                "To make it available again edit your advert properly\n" +
+                "1.Update Advert\n" +
+                "2.Exit");
+            Console.Write("You choice : ");
+            int choice;
+            try
+            {
+                choice = Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("You can only enter numbers");
+                Console.ResetColor();
+                ViewMessage(index);
+                return;
+            }
+            if (choice == 1)
+            {
+            ((User)Program.account).UpdateAdvert(message.Report.Advert);
+                return;
+            }else if (choice == 2)
+            {
+                Program.printSecondMenu();
+                return;
+            }
+            else
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("There is no such an input");
+                Console.ResetColor();
+                ViewMessage(index);
+                return;
+            }
         }
         public static AuthorizedAccount GetAuthorizedAccountByUsername(string username)
         {
-
             foreach (AuthorizedAccount account in accounts)
             {
                 if (account.userName == username)

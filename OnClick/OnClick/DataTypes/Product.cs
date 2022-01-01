@@ -10,7 +10,7 @@ namespace OnClick
     {
         public string info { get; set; }
         public bool isTradable { get; set; }
-        public int price { get; set; }
+        public double price { get; set; }
         public PropertyType propertyType { get; set; }
 
     }
