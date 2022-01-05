@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "TL0KjdOCmeigQ7eG1aDcBR/B4m7TK/d/gzjPrsvJWVqlhy2uRWa5+6lbi+r2NCG6GLqZEDKjEqmkIWN4tSLegQ==",
+  "success": true,
+  "projectFilePath": "D:\\Projects\\VSProjects\\OnClick\\OnClick\\OnClick.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Kaan\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.12\\microsoft.netcore.app.host.win-x64.5.0.12.nupkg.sha512"
+  ],
+  "logs": []
+}
